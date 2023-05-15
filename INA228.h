@@ -81,5 +81,6 @@ float INA228_Get_POWER(void);
 float INA228_Get_ENERGY(void);
 float INA228_Get_CHARGE(void);
 void INA228_RESET_ACC(void);
+void INA228_RESET(void);
 
 #endif
