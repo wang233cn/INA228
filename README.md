@@ -1,6 +1,7 @@
 # INA228
-INA228 driving library for stm32 HAL
-Test ON STM32F411CEU6
+	INA228 driving library for stm32 HAL
+	Test ON STM32F411CEU6
+	The file encoding is UTF-8
 
 ```
 使用示例：
