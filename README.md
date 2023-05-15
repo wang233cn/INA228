@@ -1,6 +1,8 @@
 # INA228
 INA228 driving library for stm32 HAL
+Test ON STM32F411CEU6
 
+```
 使用示例：
 Example:
 void INA228_LOAD_Config(void){
@@ -21,3 +23,4 @@ void INA228_LOAD_Config(void){
 	//设置Rshunt阻值和温漂  Set Rshunt resistance and temperature drift
 	INA228_SET_SHUNT_CAL(50,20);
 }
+```
