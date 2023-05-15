@@ -154,5 +154,12 @@ void INA228_RESET_ACC(void){
 	INA228_Write_Mem(INA228_CONFIG,2,data1);
 }
 
+//复位
+void INA228_RESET(void){
+	uint16_t data = 0x8000;
+  uint8_t data1[2]={data>>8,data};
+	INA228_Write_Mem(INA228_CONFIG,2,data1);
+}
+
 void INA228_Set_SOVL(){
 };
