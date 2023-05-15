@@ -2,7 +2,7 @@
 	INA228 driving library for stm32 HAL
 	Test ON STM32F411CEU6
 	The file encoding is UTF-8
-
+	Part of set alert is not complete. 
 ```
 使用示例：
 Example:
