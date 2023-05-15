@@ -4,8 +4,10 @@
 	The file encoding is UTF-8
 	Part of set alert is not complete. 
 ```
-使用示例：
 Example:
+INA228_CONFIGTypeDef INA228_MainConfig;
+INA228_ADCTypeDef INA228_ADC_MainConfig;
+
 void INA228_LOAD_Config(void){
 	//初始化INA228配置   Initialize INA228 configuration
 	INA228_MainConfig.ADCRANGE = 0;
