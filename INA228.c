@@ -4,7 +4,6 @@
 INA228_CONFIGTypeDef *INA228_Config;
 INA228_ADCTypeDef *INA228_ADCConfig;
 
-HAL_StatusTypeDef STATE;
 float CURRENT_LSB;
 
 //读取函数
@@ -18,10 +17,7 @@ void INA228_Read_Mem(uint8_t addr,uint8_t LENGTH,uint8_t *buff){
 
 //初始化
 uint8_t INA228_Init(INA228_CONFIGTypeDef *INA228_Init){
-//	uint32_t State;
-//	INA228_Read_Mem(INA228_MANUFACTURER_ID,1,(uint8_t *)&State);
-//	if(State != 0x4954) return 0;	
-//	
+
 	uint16_t data;
 	data = 1<<15;
 	uint8_t data0[2] = {data>>8,data};
@@ -69,7 +65,10 @@ float INA228_Get_VSHUNT(void){
 //	uint32_t data;
 	uint8_t data1[3];
   INA228_Read_Mem(INA228_VSHUNT,3,data1);
-	uint32_t data = (data1[0]<<16|data1[1]<<8|data1[2])>>4;
+	int32_t data = (data1[0]<<16|data1[1]<<8|data1[2])>>4;
+	if(data  & 0x80000){
+		data |= 0xFFF00000;
+	}
 //	data = data>>4;
 	if(INA228_Config->ADCRANGE == 1)
 		VSHUNT = 0.0000003125*data;
@@ -83,7 +82,6 @@ float INA228_Get_VBUS(void){
 	float VBUS;
 	uint8_t data1[3];
 	INA228_Read_Mem(INA228_VBUS,3,data1);
-	//data = data>>4;
 	uint32_t data = (data1[0]<<16|data1[1]<<8|data1[2])>>4;
 	VBUS = 0.0001953125*data;
 	return VBUS;
@@ -92,20 +90,26 @@ float INA228_Get_VBUS(void){
 //获取芯片温度
 float INA228_Get_DIETEMP(void){
 	float TEMP;
-  uint16_t data;
+  int16_t data;
 	uint8_t data1[2];
 	INA228_Read_Mem(INA228_DIETEMP,2,data1);
 	data = data1[0]<<8|data1[1];
+	
 	TEMP = 0.0078125*data;
 	return TEMP;
 }
+
 
 //获取电流
 float INA228_Get_CURRENT(void){
 	float CURRENT;
 	uint8_t data1[3];
 	INA228_Read_Mem(INA228_CURRENT,3,data1);
-	uint32_t data = (data1[0]<<16|data1[1]<<8|data1[2])>>4;
+	int32_t data = (data1[0]<<16|data1[1]<<8|data1[2])>>4;
+	if(data  & 0x80000){
+		data |= 0xFFF00000;
+	}
+
 	CURRENT = data*CURRENT_LSB;
 	return CURRENT;
 }
@@ -136,7 +140,7 @@ float INA228_Get_ENERGY(void){
 //获取电荷量
 float INA228_Get_CHARGE(void){
 	float CHARGE;
-	uint64_t data;
+	int64_t data;
 	uint8_t data1[5];
 	INA228_Read_Mem(INA228_CHARGE,5,data1);
 	data = data1[0];
@@ -150,13 +154,6 @@ float INA228_Get_CHARGE(void){
 void INA228_RESET_ACC(void){
 	uint16_t data = INA228_Config->RST<<15|INA228_Config->RSTACC<<14|INA228_Config->CONVDLY<<6|INA228_Config->TEMPCOMP<<5|INA228_Config->ADCRANGE<<4;
 	data |= 0x4000;
-  uint8_t data1[2]={data>>8,data};
-	INA228_Write_Mem(INA228_CONFIG,2,data1);
-}
-
-//复位
-void INA228_RESET(void){
-	uint16_t data = 0x8000;
   uint8_t data1[2]={data>>8,data};
 	INA228_Write_Mem(INA228_CONFIG,2,data1);
 }
