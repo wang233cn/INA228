@@ -45,7 +45,7 @@ void INA228_SET_Alert(){
 }
 
 //分流电阻校准，单位：毫欧,ppm/℃
-void INA228_SET_SHUNT_CAL(uint16_t RSHUNT,uint16_t ppm){
+void INA228_SET_SHUNT_CAL(float RSHUNT,uint16_t ppm){
 	uint16_t SHUNT_CAL;
 	if(INA228_Config->ADCRANGE == 1)
 		SHUNT_CAL = 131072  * CURRENT_LSB * 100000 * (RSHUNT/1000.0) * 4;
