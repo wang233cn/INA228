@@ -72,7 +72,7 @@ typedef struct
 
 uint8_t INA228_Init(INA228_CONFIGTypeDef *INA228_Init);
 void INA228_ADC_Config(INA228_ADCTypeDef *INA228_ADCInit);
-void INA228_SET_SHUNT_CAL(uint16_t RSHUNT,uint16_t ppm);
+void INA228_SET_SHUNT_CAL(float RSHUNT,uint16_t ppm);
 float INA228_Get_VSHUNT(void);
 float INA228_Get_VBUS(void);
 float INA228_Get_DIETEMP(void);
